@@ -39,6 +39,7 @@ export const uploadImage = (file) => {
     headers: { "Content-Type": "multipart/form-data" },
   });
 };
+export const deleteImage = (id) => api.delete(`/images/${id}`);
 
 export const getVideos = () => api.get("/videos");
 export const uploadVideo = (file) => {
@@ -48,5 +49,6 @@ export const uploadVideo = (file) => {
     headers: { "Content-Type": "multipart/form-data" },
   });
 };
+export const deleteVideo = (id) => api.delete(`/videos/${id}`);
 
 export default api;

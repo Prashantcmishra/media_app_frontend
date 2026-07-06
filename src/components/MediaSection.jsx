@@ -1,6 +1,14 @@
 import { useEffect, useState } from "react";
 import UploadModal from "./UploadModal";
-import { getImages, uploadImage, getVideos, uploadVideo } from "../api/api";
+import PreviewModal from "./PreviewModal";
+import {
+  getImages,
+  uploadImage,
+  deleteImage,
+  getVideos,
+  uploadVideo,
+  deleteVideo,
+} from "../api/api";
 
 /**
  * mediaType: "image" | "video"
@@ -12,6 +20,7 @@ export default function MediaSection({ mediaType, onBack }) {
   const [showModal, setShowModal] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
+  const [previewItem, setPreviewItem] = useState(null);
 
   const isImage = mediaType === "image";
 
@@ -47,6 +56,10 @@ export default function MediaSection({ mediaType, onBack }) {
     }
   };
 
+  const handleDeleted = (id) => {
+    setItems((prev) => prev.filter((i) => i._id !== id));
+  };
+
   return (
     <div className="section-screen">
       <header className="section-header">
@@ -73,13 +86,20 @@ export default function MediaSection({ mediaType, onBack }) {
       ) : (
         <div className="media-grid">
           {items.map((item) => (
-            <div className="media-card" key={item._id}>
+            <button
+              className="media-card"
+              key={item._id}
+              onClick={() => setPreviewItem(item)}
+            >
               {isImage ? (
                 <img src={item.url} alt={item.originalName || "uploaded"} loading="lazy" />
               ) : (
-                <video src={item.url} controls playsInline />
+                <>
+                  <video src={item.url} playsInline muted />
+                  <span className="video-play-badge">▶</span>
+                </>
               )}
-            </div>
+            </button>
           ))}
         </div>
       )}
@@ -94,6 +114,16 @@ export default function MediaSection({ mediaType, onBack }) {
           uploading={uploading}
           onFileSelected={handleFileSelected}
           onClose={() => !uploading && setShowModal(false)}
+        />
+      )}
+
+      {previewItem && (
+        <PreviewModal
+          item={previewItem}
+          mediaType={mediaType}
+          onClose={() => setPreviewItem(null)}
+          onDelete={isImage ? deleteImage : deleteVideo}
+          onDeleted={handleDeleted}
         />
       )}
     </div>
