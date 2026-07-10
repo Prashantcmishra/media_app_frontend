@@ -40,6 +40,8 @@ export const uploadImage = (file) => {
   });
 };
 export const deleteImage = (id) => api.delete(`/images/${id}`);
+export const reactToImage = (id, emoji, comment) =>
+  api.post(`/images/${id}/react`, { emoji, comment });
 
 export const getVideos = () => api.get("/videos");
 export const uploadVideo = (file) => {
@@ -50,5 +52,7 @@ export const uploadVideo = (file) => {
   });
 };
 export const deleteVideo = (id) => api.delete(`/videos/${id}`);
+export const reactToVideo = (id, emoji, comment) =>
+  api.post(`/videos/${id}/react`, { emoji, comment });
 
 export default api;

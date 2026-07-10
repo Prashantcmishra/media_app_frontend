@@ -109,6 +109,10 @@ export default function PreviewModal({ item, mediaType, onClose, onDelete, onDel
           ✕
         </button>
 
+        {item.uploadedBy && (
+          <span className="preview-uploader-badge">Uploaded by {item.uploadedBy}</span>
+        )}
+
         <div className="preview-media-wrap">
           {isImage ? (
             <img src={item.url} alt={item.originalName || "preview"} />
