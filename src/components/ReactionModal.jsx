@@ -4,6 +4,8 @@ const EMOJIS = ["👍", "❤️", "😂", "😮", "😢", "😡"];
 
 /**
  * Bottom-sheet reaction picker, opened via long-press on a media card.
+ * Reaction and comment are both fully optional and independent —
+ * user can send just an emoji, just a comment, or both together.
  *
  * onSubmit: (emoji, comment) => Promise
  * onClose: () => void
@@ -15,14 +17,14 @@ export default function ReactionModal({ onSubmit, onClose }) {
   const [error, setError] = useState("");
 
   const handleSend = async () => {
-    if (!selectedEmoji) return;
+    if (!selectedEmoji && !comment.trim()) return;
     setSending(true);
     setError("");
     try {
-      await onSubmit(selectedEmoji, comment.trim());
+      await onSubmit(selectedEmoji || "", comment.trim());
       onClose();
     } catch (err) {
-      setError(err.response?.data?.message || "Couldn't send reaction. Try again.");
+      setError(err.response?.data?.message || "Couldn't send. Try again.");
       setSending(false);
     }
   };
@@ -31,14 +33,17 @@ export default function ReactionModal({ onSubmit, onClose }) {
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-sheet reaction-sheet" onClick={(e) => e.stopPropagation()}>
         <div className="modal-handle" />
-        <h3 className="modal-title">React</h3>
+        <h3 className="modal-title">React / Comment</h3>
+        <p className="reaction-subtitle">
+          Pick a reaction, add a comment, or both — it's up to you.
+        </p>
 
         <div className="emoji-grid">
           {EMOJIS.map((emoji) => (
             <button
               key={emoji}
               className={`emoji-btn ${selectedEmoji === emoji ? "selected" : ""}`}
-              onClick={() => setSelectedEmoji(emoji)}
+              onClick={() => setSelectedEmoji((prev) => (prev === emoji ? null : emoji))}
               disabled={sending}
             >
               {emoji}
@@ -65,7 +70,7 @@ export default function ReactionModal({ onSubmit, onClose }) {
           <button
             className="btn-primary reaction-send-btn"
             onClick={handleSend}
-            disabled={!selectedEmoji || sending}
+            disabled={(!selectedEmoji && !comment.trim()) || sending}
           >
             {sending ? "Sending..." : "Send"}
           </button>

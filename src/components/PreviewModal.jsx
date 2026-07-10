@@ -2,8 +2,10 @@ import { useState } from "react";
 
 /**
  * Full-screen preview for a single image/video with Delete, Download, Share actions.
+ * Shows all reactions (emoji) and comments left on this item, each independent —
+ * an entry may have just an emoji, just a comment, or both.
  *
- * item: { _id, url, originalName }
+ * item: { _id, url, originalName, uploadedBy, reactions }
  * mediaType: "image" | "video"
  * onClose: () => void
  * onDeleted: (id) => void   // called after successful delete so parent can remove it from the grid
@@ -122,6 +124,20 @@ export default function PreviewModal({ item, mediaType, onClose, onDelete, onDel
         </div>
 
         {error && <p className="error-text preview-error">{error}</p>}
+
+        {item.reactions && item.reactions.length > 0 && (
+          <div className="preview-reactions-list">
+            {item.reactions.map((r, idx) => (
+              <div className="preview-reaction-row" key={idx}>
+                {r.emoji && <span className="preview-reaction-emoji">{r.emoji}</span>}
+                <div className="preview-reaction-text">
+                  <span className="preview-reaction-user">{r.username}</span>
+                  {r.comment && <span className="preview-reaction-comment">{r.comment}</span>}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
 
         <div className="preview-actions">
           <button className="preview-action-btn" onClick={handleDownload} disabled={busy}>

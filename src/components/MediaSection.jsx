@@ -102,6 +102,9 @@ export default function MediaSection({ mediaType, onBack }) {
     setItems((prev) =>
       prev.map((i) => (i._id === res.data._id ? res.data : i))
     );
+
+    // Keep the preview in sync too, in case it's open for the same item
+    setPreviewItem((prev) => (prev && prev._id === res.data._id ? res.data : prev));
   };
 
   return (
@@ -155,11 +158,24 @@ export default function MediaSection({ mediaType, onBack }) {
                   <span className="video-play-badge">▶</span>
                 </>
               )}
-              {item.reactions && item.reactions.length > 0 && (
-                <span className="reaction-count-badge">
-                  {item.reactions[item.reactions.length - 1].emoji} {item.reactions.length}
-                </span>
-              )}
+              {(() => {
+                const emojiReactions = (item.reactions || []).filter((r) => r.emoji);
+                const commentReactions = (item.reactions || []).filter((r) => r.comment);
+                return (
+                  <>
+                    {emojiReactions.length > 0 && (
+                      <span className="reaction-count-badge">
+                        {emojiReactions[emojiReactions.length - 1].emoji} {emojiReactions.length}
+                      </span>
+                    )}
+                    {commentReactions.length > 0 && (
+                      <span className="comment-count-badge">
+                        💬 {commentReactions.length}
+                      </span>
+                    )}
+                  </>
+                );
+              })()}
             </button>
           ))}
         </div>
