@@ -55,4 +55,7 @@ export const deleteVideo = (id) => api.delete(`/videos/${id}`);
 export const reactToVideo = (id, emoji, comment) =>
   api.post(`/videos/${id}/react`, { emoji, comment });
 
+export const getAnnouncement = () => api.get("/announcement");
+export const updateAnnouncement = (message) => api.post("/announcement", { message });
+
 export default api;

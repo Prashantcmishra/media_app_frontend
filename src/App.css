@@ -668,3 +668,101 @@
   padding: 8px 14px;
   border-radius: 999px;
 }
+
+/* ---------- ANNOUNCEMENT EDITOR (admin, on dashboard) ---------- */
+.announcement-editor {
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
+
+.announcement-editor-label {
+  margin-top: 0;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.announcement-textarea {
+  width: 100%;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 15px;
+  resize: none;
+  outline: none;
+  font-family: inherit;
+}
+
+.announcement-textarea:focus {
+  border-color: #4f46e5;
+}
+
+.announcement-editor-footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.announcement-save-btn {
+  margin-top: 0;
+  padding: 12px 20px;
+  width: auto;
+  flex-shrink: 0;
+}
+
+.announcement-save-status {
+  font-size: 13px;
+  font-weight: 600;
+  color: #16a34a;
+}
+
+/* ---------- ANNOUNCEMENT POPUP (regular users, on dashboard) ---------- */
+.announcement-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 55;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.announcement-modal {
+  width: 100%;
+  max-width: 340px;
+  background: #fff;
+  border-radius: 20px;
+  padding: 28px 24px;
+  text-align: center;
+  animation: slideUp 0.2s ease-out;
+}
+
+.announcement-modal-icon {
+  font-size: 36px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.announcement-modal-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1f2333;
+  margin-bottom: 12px;
+}
+
+.announcement-modal-message {
+  font-size: 15px;
+  color: #374151;
+  line-height: 1.5;
+  margin-bottom: 20px;
+  white-space: pre-wrap;
+}
+
+.announcement-ok-btn {
+  margin-top: 0;
+  padding: 13px;
+}

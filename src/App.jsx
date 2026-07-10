@@ -12,16 +12,20 @@ function App() {
   const [username, setUsername] = useState(
     localStorage.getItem("username") || ""
   );
+  const [role, setRole] = useState(localStorage.getItem("role") || "");
 
-  const handleLoginSuccess = (name) => {
+  const handleLoginSuccess = (name, userRole) => {
     setUsername(name);
+    setRole(userRole);
     setScreen("dashboard");
   };
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("username");
+    localStorage.removeItem("role");
     setUsername("");
+    setRole("");
     setScreen("login");
   };
 
@@ -32,6 +36,7 @@ function App() {
       {screen === "dashboard" && (
         <Dashboard
           username={username}
+          role={role}
           onSelectSection={(section) => setScreen(section)}
           onLogout={handleLogout}
         />

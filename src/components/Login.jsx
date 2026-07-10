@@ -13,9 +13,10 @@ export default function Login({ onLoginSuccess }) {
     setLoading(true);
     try {
       const res = await login(username, password);
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("username", res.data.user.username);
-      onLoginSuccess(res.data.user.username);
+localStorage.setItem("token", res.data.token);
+localStorage.setItem("username", res.data.user.username);
+localStorage.setItem("role", res.data.user.role);
+onLoginSuccess(res.data.user.username, res.data.user.role);
     } catch (err) {
       setError(err.response?.data?.message || "Login failed. Please try again.");
     } finally {
